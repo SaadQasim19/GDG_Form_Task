@@ -1,0 +1,208 @@
+/* ============================================================
+   Global Styles — keep it simple and readable
+   ============================================================ */
+
+/* Reset default browser margins/padding and use border-box sizing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================================
+   Form Container — the white card that holds Login/Register
+   ============================================================ */
+.form-container {
+  background: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 420px;
+}
+
+.form-container h2 {
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  color: #222;
+  text-align: center;
+}
+
+/* Each label + input pair */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #4f8ef7;
+}
+
+/* Submit / action button */
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4f8ef7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 0.2s;
+}
+
+button:hover:not(:disabled) {
+  background-color: #3a78e0;
+}
+
+button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+/* Error message — red box */
+.error-message {
+  background-color: #fde8e8;
+  color: #c0392b;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+}
+
+/* Success message — green box */
+.success-message {
+  background-color: #e8f8e8;
+  color: #27ae60;
+  padding: 10px 14px;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+}
+
+/* "Go to register / login" link at the bottom of forms */
+.switch-link {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.switch-link a {
+  color: #4f8ef7;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.switch-link a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   Dashboard Container
+   ============================================================ */
+.dashboard-container {
+  background: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 550px;
+}
+
+.dashboard-container h1 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.dashboard-container p {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Admin dashboard has a slightly different header colour */
+.dashboard-container.admin h1 {
+  color: #c0392b;
+}
+
+/* Card that shows profile info */
+.info-card {
+  background: #f8f9fb;
+  border: 1px solid #e2e6ea;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.info-card h3 {
+  margin-bottom: 12px;
+  font-size: 1rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.info-card p {
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Admin privileges list */
+.admin-note {
+  background: #fff5f5;
+  border: 1px solid #fad7d7;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.admin-note h3 {
+  margin-bottom: 10px;
+  color: #c0392b;
+}
+
+.admin-note ul {
+  list-style: disc inside;
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+/* Red logout button overrides the default blue */
+.logout-button {
+  background-color: #e74c3c;
+}
+
+.logout-button:hover:not(:disabled) {
+  background-color: #c0392b;
+}
