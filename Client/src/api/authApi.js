@@ -18,7 +18,9 @@ const BASE_URL = "http://localhost:5000/api/auth";
 // ----------------------------------------------------------------
 export async function registerUser(formData) {
   const url = BASE_URL + "/register";
-  const response = await axios.post(url, formData);
+  const response = await axios.post(url, formData, {
+    withCredentials: true
+  });
   return response.data;
 }
 
@@ -31,7 +33,9 @@ export async function registerUser(formData) {
 // ----------------------------------------------------------------
 export async function loginUser(formData) {
   const url = BASE_URL + "/login";
-  const response = await axios.post(url, formData);
+  const response = await axios.post(url, formData, {
+    withCredentials: true
+  });
   return response.data;
 }
 
