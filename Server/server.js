@@ -16,6 +16,12 @@ app.use(cors({
   credentials: true
 }))
 
+// Debug middleware: log incoming requests
+app.use(function (req, res, next) {
+  console.log('Incoming request:', req.method, req.path, 'Body:', req.body)
+  next()
+})
+
 app.get('/', (req, res) => {
   res.json({ message: ' Auth API is running' })
 })
