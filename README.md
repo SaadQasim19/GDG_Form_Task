@@ -113,14 +113,14 @@ ADMIN_SECRET=your_admin_secret_key_here
 
 ## 🌐 API Endpoints
 
-Base URL: `http://localhost:5000/api/auth`
-
-| Method | Endpoint    | Access     | Description             |
-|--------|-------------|------------|-------------------------|
-| POST   | `/register` | Public     | Register a new user     |
-| POST   | `/login`    | Public     | Login and receive token |
-| GET    | `/profile`  | Protected  | Get logged-in user info |
-| GET    | `/admin`    | Admin only | Admin dashboard access  |
+| Method | Endpoint                  | Access          | Description              |
+|--------|---------------------------|-----------------|--------------------------|
+| POST   | `/api/auth/register`      | Public          | Register a new user      |
+| POST   | `/api/auth/login`         | Public          | Login and receive token  |
+| POST   | `/api/auth/logout`        | Authenticated   | Clear session / cookie   |
+| GET    | `/api/auth/profile`       | Authenticated   | Get logged-in user info  |
+| GET    | `/api/dashboard`          | user or admin   | User dashboard data      |
+| GET    | `/api/admin`              | Admin only      | Admin dashboard data     |
 
 ---
 

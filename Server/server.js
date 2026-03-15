@@ -26,7 +26,8 @@ app.get('/', (req, res) => {
   res.json({ message: ' Auth API is running' })
 })
 
-app.use('/api/auth', require('./routes/authRoutes'))
+app.use('/api/auth', require('./routes/authRoutes'))  // /api/auth/register, login, logout, profile
+app.use('/api',      require('./routes/apiRoutes'))   // /api/dashboard, /api/admin
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {

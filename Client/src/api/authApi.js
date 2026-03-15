@@ -29,15 +29,18 @@ export async function registerUser(formData) {
 // ----------------------------------------------------------------
 // Sends the user's email and password to the backend.
 // The backend checks them and sends back: { token, user }
-// where user = { name, email, role }
-// ----------------------------------------------------------------
 export async function loginUser(formData) {
   const url = BASE_URL + "/login";
-  const response = await axios.post(url, formData, {
-    withCredentials: true
-  });
+
+  // withCredentials: true tells the browser to accept and store the
+  // HTTP-only cookie that the backend sends back. Without this line
+  // the cookie is silently ignored and never saved.
+  const response = await axios.post(url, formData, { withCredentials: true });
+
   return response.data;
-}
+}// where user = { name, email, role }
+// ----------------------------------------------------------------
+
 
 // ----------------------------------------------------------------
 // logoutUser

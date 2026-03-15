@@ -26,13 +26,20 @@ const AuthContext = createContext();
 // props.children is everything wrapped inside <AuthProvider>...</AuthProvider>.
 export function AuthProvider(props) {
 
-  // user  — stores the logged-in user object: { name, email, role }
-  //         starts as null (nobody is logged in yet)
-  const [user, setUser] = useState(null);
+  // ── On first page load, check if the user was already logged in.
+  // localStorage is like the browser's own notepad — it survives a refresh.
+  // We saved the user & token there when they logged in last time.
+  const [user, setUser] = useState(function () {
+    const savedUser = localStorage.getItem('authUser');
+    if (savedUser) {
+      return JSON.parse(savedUser);  // bring back the saved user object
+    }
+    return null;
+  });
 
-  // token — stores the JWT string the backend gives us after login
-  //         starts as null (no token yet)
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(function () {
+    return localStorage.getItem('authToken') || null;  // bring back the saved token
+  });
 
   // ----------------------------------------------------------
   // login() — call this after a successful login API response.
@@ -41,6 +48,10 @@ export function AuthProvider(props) {
   function login(userData, jwtToken) {
     setUser(userData);   // save user info  e.g. { name: "Alice", role: "admin" }
     setToken(jwtToken);  // save the token  e.g. "eyJhbGciOiJIUzI1NiIsIn..."
+
+    // Also write to localStorage so the data survives a page refresh.
+    localStorage.setItem('authUser',  JSON.stringify(userData));
+    localStorage.setItem('authToken', jwtToken);
   }
 
   // ----------------------------------------------------------
@@ -49,6 +60,10 @@ export function AuthProvider(props) {
   function logout() {
     setUser(null);
     setToken(null);
+
+    // Remove saved data from localStorage so the user is fully signed out.
+    localStorage.removeItem('authUser');
+    localStorage.removeItem('authToken');
   }
 
   // isLoggedIn — true when the user has a token, false otherwise.
