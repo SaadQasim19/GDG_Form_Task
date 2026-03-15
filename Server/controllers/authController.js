@@ -7,6 +7,11 @@ const generateToken = require('../utils/generateToken')
 // ─────────────────────────────────────
 const register = async (req, res) => {
   try {
+    // Safety check: req.body should exist (middleware should parse it)
+    if (!req.body || typeof req.body !== 'object') {
+      return res.status(400).json({ message: 'Request body is empty or invalid. Make sure Content-Type is application/json' })
+    }
+
     const { name, email, password } = req.body
 
     // 1. Check all fields are provided
@@ -24,17 +29,35 @@ const register = async (req, res) => {
     const user = await User.create({ name, email, password, role: 'user' })
 
     // 4. Send back success
-    res.status(200).json({
-    message: 'Logged in successfully',
-    token,
+    // Note: We don't return a token here because registration just creates the account.
+    // The user must log in separately to get a token and stay logged in.
+    res.status(201).json({
+      message: 'User registered successfully. Please log in.',
       user: {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
       }
     })
   } catch (error) {
+    // Log the full error to the backend console for debugging
+    console.error('Register error:', error)
+    
+    // Handle Mongoose validation errors
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors)
+        .map(function (err) { return err.message })
+        .join(', ')
+      return res.status(400).json({ message: messages })
+    }
+    
+    // Handle duplicate email error
+    if (error.code === 11000) {
+      return res.status(400).json({ message: 'Email already in use' })
+    }
+    
+    // Generic server error
     res.status(500).json({ message: 'Server error', error: error.message })
   }
 }
@@ -73,7 +96,7 @@ const login = async (req, res) => {
       // Flutter will store it in AsyncStorage
       return res.status(200).json({
         message: 'Logged in successfully',
-        token,
+        token: token,
         user: {
           id: user._id,
           name: user.name,
@@ -83,7 +106,8 @@ const login = async (req, res) => {
       })
     }
 
-    // Web: set HTTP-only cookie — JS cannot access this (XSS safe)
+    // Web: Set HTTP-only cookie AND return token in response body
+    // This allows the frontend to use either method
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -93,6 +117,7 @@ const login = async (req, res) => {
 
     res.status(200).json({
       message: 'Logged in successfully',
+      token: token,
       user: {
         id: user._id,
         name: user.name,
@@ -101,7 +126,19 @@ const login = async (req, res) => {
       }
     })
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message })
+    // Log the full error to the backend console for debugging
+    console.error('Login error:', error)
+    
+    // Handle Mongoose validation errors
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors)
+        .map(function (err) { return err.message })
+        .join(', ')
+      return res.status(400).json({ message: messages })
+    }
+    
+    // Generic server error
+    res.status(500).json({ message: 'Server error. Please try again.', error: error.message })
   }
 }
 
@@ -127,7 +164,9 @@ const getProfile = async (req, res) => {
     }
     res.status(200).json(user)
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message })
+    // Log the full error to the backend console for debugging
+    console.error('GetProfile error:', error)
+    res.status(500).json({ message: 'Server error. Could not fetch profile.', error: error.message })
   }
 }
 
