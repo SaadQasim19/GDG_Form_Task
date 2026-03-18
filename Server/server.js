@@ -12,7 +12,7 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: process.env.CLIENT_URL || 'http://localhost:5173',
   credentials: true
 }))
 
@@ -30,6 +30,11 @@ app.use('/api/auth', require('./routes/authRoutes'))  // /api/auth/register, log
 app.use('/api',      require('./routes/apiRoutes'))   // /api/dashboard, /api/admin
 
 const PORT = process.env.PORT || 5000
-app.listen(PORT, () => {
-  console.log(` Server running on http://localhost:${PORT}`)
-})
+
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`)
+  })
+}
+
+module.exports = app
