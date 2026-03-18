@@ -8,7 +8,7 @@ import axios from "axios";
 
 // The base URL of our backend server.
 // We will add the specific path (like "/register") at the end.
-const BASE_URL = "http://localhost:5000/api/auth";
+const BASE_URL = "/api/auth";
 
 // ----------------------------------------------------------------
 // registerUser
